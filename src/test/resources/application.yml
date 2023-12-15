@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2://mem:db;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
     username: root
     password: example
     driver-class-name: org.h2.Driver
@@ -11,3 +11,5 @@ spring:
     properties:
       hibernate:
         format_sql: true
+jwt:
+  secret-key: EzZi5Gc0J3Y5VTMktGamZjMwEmc0gnc1RDZ2x2YoF2c0Enb0VXaudWc6x2bsRndypmdxIDMxV2YkxmMsNTc2UmM1ZTYoVHcxhDe0Mjd2FWY0A3Y1N2Z0YTewwGMt9Wa3EDe2ATN1End08WMuJDa4MDd2VWN00WM4gWYjF3c5EHO=
