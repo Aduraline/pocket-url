@@ -31,3 +31,11 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Terraform ###
+/terraform/pocketurlkey
+/terraform/pocketurlkey.pub
+/terraform/terraform.tfvars
+/terraform/.terraform
+/terraform/.terraform.lock.hcl
+/terraform/terraform.tfstate
