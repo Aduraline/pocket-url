@@ -1,7 +1,6 @@
-# This workflow will build a Java project using Maven
-# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
+# This workflow will build and deploy a Docker image to DigitalOcean
 
-name: Java CI
+name: Java (Docker) CI
 
 on:
   push:
@@ -9,36 +8,23 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'adopt'
-        cache: maven    
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Build with Maven
-      run: 
-        mvn -B package --file pom.xml
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
-    - name: Create Artifacts Directory
-      run: mkdir artifacts
+      - name: Log in to DigitalOcean Container Registry
+        run: echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login -u "${{ secrets.REGISTRY_USERNAME }}" --password-stdin registry.digitalocean.com
 
-    - name: Copy JAR to Artifacts Directory
-      run: cp target/*.jar artifacts
-
-    - name: Test with Maven
-      run: mvn test    
-    
-    - name: Save artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: github-actions-artifact
-        path: artifacts
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            registry.digitalocean.com/pocketurl-registry/pocketurl:latest
