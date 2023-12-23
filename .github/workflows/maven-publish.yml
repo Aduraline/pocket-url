@@ -19,9 +19,9 @@ jobs:
 
       - name: Log into DigitalOcean Container Registry
         run: |
-          echo '{"auths":{"registry.digitalocean.com":{"username":"'$REGISTRY_USERNAME'","password":"'$REGISTRY_PASSWORD'","auth":"'$REGISTRY_DOCKER_AUTH'"}}}' > $HOME/.docker/config.json
-          echo "Config content: " $HOME/.docker/config.json
-          docker login registry.digitalocean.com -u "$REGISTRY_USERNAME" -p "$REGISTRY_PASSWORD"
+          echo '{"auths":{"registry.digitalocean.com":{"username":"'$REGISTRY_PASSWORD'","password":"'$REGISTRY_PASSWORD'","auth":"'$REGISTRY_DOCKER_AUTH'"}}}' > $HOME/.docker/config.json
+          echo "Config content:"
+          cat $HOME/.docker/config.json
 
       - name: Build and push Docker image
         run: |
