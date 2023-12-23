@@ -32,3 +32,26 @@ jobs:
         run: |
           docker build -t registry.digitalocean.com/pocketurl-registry/pocketurl:latest .
           docker push registry.digitalocean.com/pocketurl-registry/pocketurl:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Docker
+        uses: docker/setup-docker@v2
+
+      - name: Log in to DigitalOcean Container Registry
+        run: |
+          echo '{"auths":{"registry.digitalocean.com":{"auth":"'${{ secrets.REGISTRY_DOCKER_AUTH }}'"}}}' > $HOME/.docker/config.json
+
+      - name: Pull Docker image
+        run: docker pull registry.digitalocean.com/pocketurl-registry/pocketurl:latest
+
+      - name: Run Docker container on Droplet
+        run: |
+          ssh ${{ secrets.DROPLET_USERNAME }}@${{ secrets.DROPLET_IP }} 'bash -s' < deploy_script.sh
+        env:
+          DOCKER_IMAGE: registry.digitalocean.com/pocketurl-registry/pocketurl:latest
