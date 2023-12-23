@@ -21,8 +21,8 @@ jobs:
         uses: docker/login-action@v1
         with:
           registry: registry.digitalocean.com
-          username: ${{ secrets.REGISTRY_PASSWORD }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
+          username: $REGISTRY_PASSWORD
+          password: $REGISTRY_PASSWORD
 
       - name: Build and push Docker image
         run: |
