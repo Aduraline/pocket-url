@@ -50,6 +50,10 @@ jobs:
       - name: Pull Docker image
         run: docker pull registry.digitalocean.com/pocketurl-registry/pocketurl:latest
 
+      - name: Add Droplet to known_hosts
+        run: |
+          ssh-keyscan -H ${{ secrets.DROPLET_IP }} >> ~/.ssh/known_hosts
+
       - name: Run Docker container on Droplet
         run: |
           ssh ${{ secrets.DROPLET_USERNAME }}@${{ secrets.DROPLET_IP }} 'bash -s' < deploy_script.sh
