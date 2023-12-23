@@ -50,6 +50,10 @@ jobs:
       - name: Pull Docker image
         run: docker pull registry.digitalocean.com/pocketurl-registry/pocketurl:latest
 
+      - name: Set SSH key permissions
+        run: |
+          chmod 600 ${{ secrets.DROPLET_KEY }}
+
       - name: Run Docker container on Droplet
         env:
           DOCKER_IMAGE: registry.digitalocean.com/pocketurl-registry/pocketurl:latest
