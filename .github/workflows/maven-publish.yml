@@ -19,7 +19,9 @@ jobs:
           echo "${{ secrets.ENV }}" > application.yml
 
       - name: Substitute environment variables in application.yml
-        run: envsubst < application.yml > src/main/resources/application.yml
+        run: |
+          envsubst < application.yml > src/main/resources/application.yml
+          ls -la
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
