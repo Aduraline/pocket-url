@@ -61,4 +61,5 @@ jobs:
           passphrase: ${{ secrets.DROPLET_KEY_PASSPHRASE }}
 
           script: |
-            'bash -s' < deploy_script.sh
+            chmod +x deploy_script.sh
+            ./deploy_script.sh
