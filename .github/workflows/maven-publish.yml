@@ -50,12 +50,6 @@ jobs:
       - name: Pull Docker image
         run: docker pull registry.digitalocean.com/pocketurl-registry/pocketurl:latest
 
-      - name: Display Repository Contents
-        run: ls -la
-
-      - name: Make script executable
-        run: chmod +x $GITHUB_WORKSPACE/deploy_script.sh
-
       - name: Run Docker container on Droplet
         env:
           DOCKER_IMAGE: registry.digitalocean.com/pocketurl-registry/pocketurl:latest
@@ -67,5 +61,5 @@ jobs:
           passphrase: ${{ secrets.DROPLET_KEY_PASSPHRASE }}
 
           script: |
-            chmod +x deploy_script.sh
-            ./deploy_script.sh
+            chmod +x $GITHUB_WORKSPACE/deploy_script.sh
+            $GITHUB_WORKSPACE/deploy_script.sh
