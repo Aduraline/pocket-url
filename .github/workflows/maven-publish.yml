@@ -48,8 +48,8 @@ jobs:
           passphrase: ${{ secrets.DROPLET_KEY_PASSPHRASE }}
 
           script: |
-            docker login registry.digitalocean.com -u "${{ secrets.REGISTRY_PASSWORD }}" -p "${{ secrets.REGISTRY_PASSWORD }}"
+            echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login registry.digitalocean.com -u "${{ secrets.REGISTRY_PASSWORD }}" --password-stdin
             docker pull registry.digitalocean.com/pocketurl-registry/pocketurl:latest
-            docker stop registry.digitalocean.com/pocketurl-registry/pocketurl:latest || true
-            docker rm registry.digitalocean.com/pocketurl-registry/pocketurl:latest || true
+            docker stop pocketurl || true
+            docker rm pocketurl || true
             docker run -d -p 80:8080 --name pocketurl registry.digitalocean.com/pocketurl-registry/pocketurl:latest
