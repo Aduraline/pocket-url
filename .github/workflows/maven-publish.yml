@@ -50,8 +50,13 @@ jobs:
       - name: Pull Docker image
         run: docker pull registry.digitalocean.com/pocketurl-registry/pocketurl:latest
 
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.5.2
+        with:
+          ssh-private-key: ${{ secrets.DROPLET_KEY }}
+
       - name: Run Docker container on Droplet
         run: |
-          ssh -i ${{ secrets.DROPLET_KEY }} ${{ secrets.DROPLET_USERNAME }}@${{ secrets.DROPLET_IP }} 'bash -s' < deploy_script.sh
+          ssh -o StrictHostKeyChecking=no ${{ secrets.DROPLET_USERNAME }}@${{ secrets.DROPLET_IP }} 'bash -s' < deploy_script.sh
         env:
           DOCKER_IMAGE: registry.digitalocean.com/pocketurl-registry/pocketurl:latest
