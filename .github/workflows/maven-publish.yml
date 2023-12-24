@@ -54,6 +54,7 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.2
         with:
           ssh-private-key: ${{ secrets.DROPLET_KEY }}
+          ssh-passphrase: ${{ secrets.DROPLET_KEY_PASSPHRASE }}
 
       - name: Run Docker container on Droplet
         run: |
