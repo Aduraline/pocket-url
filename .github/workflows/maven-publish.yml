@@ -51,8 +51,6 @@ jobs:
         run: docker pull registry.digitalocean.com/pocketurl-registry/pocketurl:latest
 
       - name: Run Docker container on Droplet
-        env:
-          DOCKER_IMAGE: registry.digitalocean.com/pocketurl-registry/pocketurl:latest
         uses: appleboy/ssh-action@v0.1.2
         with:
           host: ${{ secrets.DROPLET_IP }}
@@ -61,5 +59,6 @@ jobs:
           passphrase: ${{ secrets.DROPLET_KEY_PASSPHRASE }}
 
           script: |
-            chmod +x $GITHUB_WORKSPACE/deploy_script.sh
-            $GITHUB_WORKSPACE/deploy_script.sh
+            docker stop pocketurl || true
+            docker rm pocketurl || true
+            docker run -d -p 80:8080 --name pocketurl registry.digitalocean.com/pocketurl-registry/pocketurl:latest
